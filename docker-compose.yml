@@ -10,7 +10,7 @@ php-nginx:
     - ./logs/nginx:/var/log/nginx
   links:
     - mysql
-    - redis
+#    - redis
   privileged: true
 
 # MySQL Container #----------------------------------------
@@ -28,16 +28,16 @@ mysql:
   privileged: true
 
 # Redis Container #----------------------------------------
-redis:
-  image: laradock/redis:0.1.0
-  container_name: redis
-  ports:
-    - "6379:6379"
-  volumes_from:
-    - data
-  volumes:
-    - ./logs/redis:/var/log/redis
-  privileged: true
+#redis:
+#  image: laradock/redis:0.1.0
+#  container_name: redis
+#  ports:
+#    - "6379:6379"
+#  volumes_from:
+#    - data
+#  volumes:
+#    - ./logs/redis:/var/log/redis
+#  privileged: true
 
 # Data Volume Container #----------------------------------
 data:
