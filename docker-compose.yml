@@ -1,12 +1,49 @@
 # PHP + NGINX Container #----------------------------------
-php-nginx:
-  image: laradock/php56nginx:0.1.0
-  container_name: php-nginx
+nginx-proxy:
+  image: nginx
+  container_name: nginx-proxy
   ports:
     - "80:80"
   volumes:
+    - nginx-proxy.conf:/etc/nginx/nginx.conf
+    - ./logs/nginx:/var/log/nginx
+  
+php-nginx1:
+  image: laradock/php56nginx:0.1.0
+  container_name: php-nginx-1
+  ports:
+    - "8080:80"
+  volumes:
     - ./settings/nginx:/etc/nginx/sites-available
-    - ../:/var/www
+    - /www/branches/branch1:/var/www
+    - ./logs/nginx:/var/log/nginx
+  links:
+    - mysql
+#    - redis
+  privileged: true
+
+php-nginx2:
+  image: laradock/php56nginx:0.1.0
+  container_name: php-nginx-2
+  ports:
+    - "8081:80"
+  volumes:
+    - ./settings/nginx:/etc/nginx/sites-available
+    - /www/branches/branch2:/var/www
+    - ./logs/nginx:/var/log/nginx
+  links:
+    - mysql
+#    - redis
+  privileged: true
+
+php-nginx3:
+  image: laradock/php56nginx:0.1.0
+  container_name: php-nginx-3
+  ports:
+    - "8082:80"
+  volumes:
+    - ./settings/nginx:/etc/nginx/sites-available
+    - /www/branches/branch3:/var/www
     - ./logs/nginx:/var/log/nginx
   links:
     - mysql
