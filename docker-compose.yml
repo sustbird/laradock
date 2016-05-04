@@ -77,7 +77,7 @@ mysql2:
     MYSQL_PASSWORD: secret
   privileged: true
   
-  mysql3:
+mysql3:
   image: laradock/mysql:0.1.0
   container_name: mysql3
   ports:
