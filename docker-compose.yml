@@ -18,7 +18,7 @@ php-nginx1:
     - /www/branches/branch1:/var/www
     - ./logs/nginx:/var/log/nginx
   links:
-    - mysql
+    - mysql1
 #    - redis
   privileged: true
 
@@ -32,7 +32,7 @@ php-nginx2:
     - /www/branches/branch2:/var/www
     - ./logs/nginx:/var/log/nginx
   links:
-    - mysql
+    - mysql2
 #    - redis
   privileged: true
 
@@ -46,14 +46,14 @@ php-nginx3:
     - /www/branches/branch3:/var/www
     - ./logs/nginx:/var/log/nginx
   links:
-    - mysql
+    - mysql3
 #    - redis
   privileged: true
 
 # MySQL Container #----------------------------------------
-mysql:
+mysql1:
   image: laradock/mysql:0.1.0
-  container_name: mysql
+  container_name: mysql1
   ports:
     - "3306:3306"
   volumes_from:
@@ -64,6 +64,31 @@ mysql:
     MYSQL_PASSWORD: secret
   privileged: true
 
+mysql2:
+  image: laradock/mysql:0.1.0
+  container_name: mysql2
+  ports:
+    - "3307:3306"
+  volumes_from:
+    - data
+  environment:
+    MYSQL_DATABASE: homestead
+    MYSQL_USER: homestead
+    MYSQL_PASSWORD: secret
+  privileged: true
+  
+  mysql3:
+  image: laradock/mysql:0.1.0
+  container_name: mysql3
+  ports:
+    - "3308:3306"
+  volumes_from:
+    - data
+  environment:
+    MYSQL_DATABASE: homestead
+    MYSQL_USER: homestead
+    MYSQL_PASSWORD: secret
+  privileged: true
 # Redis Container #----------------------------------------
 #redis:
 #  image: laradock/redis:0.1.0
