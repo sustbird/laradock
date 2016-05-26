@@ -13,6 +13,8 @@ services:
         - ./logs/nginx:/var/log/nginx
       links:
         - nginx
+        - nginx2
+        - nginx3
 
 ### PHP-FPM Container #######################################
 
@@ -27,12 +29,44 @@ services:
         links:
             - workspace
 
+    php-fpm2:
+        build:
+            context: ./php-fpm
+            dockerfile: Dockerfile-55
+        volumes_from:
+            - application2
+        expose:
+            - "9000"
+        links:
+            - workspace2
+
+    php-fpm3:
+        build:
+            context: ./php-fpm
+            dockerfile: Dockerfile-55
+        volumes_from:
+            - application3
+        expose:
+            - "9000"
+        links:
+            - workspace3
+
 ### Laravel Application Code Container ######################
 
     application:
         build: ./application
         volumes:
             - ../:/var/www/laravel
+
+    application2:
+        build: ./application
+        volumes:
+            - ../../branch2:/var/www/laravel
+
+    application3:
+        build: ./application
+        volumes:
+            - ../../branch3:/var/www/laravel
 
 ### Databases Data Container ################################
 
@@ -58,6 +92,28 @@ services:
             - "80"
         links:
             - php-fpm
+
+    nginx2:
+        build: ./nginx
+        volumes_from:
+            - application2
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        expose:
+            - "80"
+        links:
+            - php-fpm2
+
+    nginx3:
+        build: ./nginx
+        volumes_from:
+            - application3
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        expose:
+            - "80"
+        links:
+            - php-fpm3
 
 ### MySQL Container #########################################
 
@@ -157,6 +213,18 @@ services:
         build: ./workspace
         volumes_from:
             - application
+        tty: true
+
+    workspace2:
+        build: ./workspace
+        volumes_from:
+            - application2
+        tty: true
+
+    workspace3:
+        build: ./workspace
+        volumes_from:
+            - application3
         tty: true
 
 ### Add more Containers below ###############################
