@@ -7,7 +7,7 @@ services:
     php-fpm:
         build:
             context: ./php-fpm
-            dockerfile: Dockerfile-70
+            dockerfile: Dockerfile-55
         volumes_from:
             - application
         expose:
@@ -57,9 +57,9 @@ services:
         ports:
             - "3306:3306"
         environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
-            MYSQL_PASSWORD: secret
+            MYSQL_DATABASE: dashboard
+            MYSQL_USER: widespace
+            MYSQL_PASSWORD: astakask
             MYSQL_ROOT_PASSWORD: root
 
 ### PostgreSQL Container ####################################

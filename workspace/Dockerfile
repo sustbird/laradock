@@ -50,7 +50,8 @@ RUN apt-get clean
 # Install gulp and bower with NPM
 RUN npm install -g \
     gulp \
-    bower
+    bower \
+    grunt
 
 # Add a symbolic link for Node
 RUN ln -s /usr/bin/nodejs /usr/bin/node
