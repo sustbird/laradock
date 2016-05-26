@@ -4,6 +4,18 @@ services:
 
 ### PHP-FPM Container #######################################
 
+    proxy:
+      build: ./proxy
+      ports:
+        - "80:80"
+        - "443:443"
+      volumes:
+        - ./logs/nginx:/var/log/nginx
+      links:
+        - nginx
+
+### PHP-FPM Container #######################################
+
     php-fpm:
         build:
             context: ./php-fpm
@@ -42,9 +54,8 @@ services:
             - application
         volumes:
             - ./logs/nginx/:/var/log/nginx
-        ports:
-            - "80:80"
-            - "443:443"
+        expose:
+            - "80"
         links:
             - php-fpm
 
