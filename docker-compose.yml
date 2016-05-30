@@ -92,6 +92,8 @@ services:
             - "80"
         links:
             - php-fpm
+        environment:
+            - UPSTREAM: php-fpm
 
     nginx2:
         build: ./nginx
@@ -103,6 +105,8 @@ services:
             - "80"
         links:
             - php-fpm2
+        environment:
+            - UPSTREAM: php-fpm2
 
     nginx3:
         build: ./nginx
@@ -114,6 +118,8 @@ services:
             - "80"
         links:
             - php-fpm3
+        environment:
+            - UPSTREAM: php-fpm3
 
 ### MySQL Container #########################################
 
@@ -125,8 +131,8 @@ services:
             - "3306:3306"
         environment:
             MYSQL_DATABASE: dashboard
-            MYSQL_USER: widespace
-            MYSQL_PASSWORD: astakask
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
 
 ### PostgreSQL Container ####################################
