@@ -12,22 +12,22 @@ services:
       volumes:
         - ./logs/nginx:/var/log/nginx
       links:
-        - nginx
+        - nginx1
         - nginx2
         - nginx3
 
 ### PHP-FPM Container #######################################
 
-    php-fpm:
+    php-fpm1:
         build:
             context: ./php-fpm
             dockerfile: Dockerfile-55
         volumes_from:
-            - application
+            - application1
         expose:
             - "9000"
         links:
-            - workspace
+            - workspace1
 
     php-fpm2:
         build:
@@ -53,7 +53,7 @@ services:
 
 ### Laravel Application Code Container ######################
 
-    application:
+    application1:
         build: ./application
         volumes:
             - ../:/var/www/laravel
@@ -82,21 +82,25 @@ services:
 
 ### Nginx Server Container ##################################
 
-    nginx:
-        build: ./nginx
+    nginx1:
+        build: 
+            context: ./nginx
+            args: 
+                PHP_UPSTREAM: php-fpm1
         volumes_from:
-            - application
+            - application1
         volumes:
             - ./logs/nginx/:/var/log/nginx
         expose:
             - "80"
         links:
-            - php-fpm
-        environment:
-            - UPSTREAM: php-fpm
+            - php-fpm1
 
     nginx2:
-        build: ./nginx
+        build:
+            context: ./nginx
+            args:
+                PHP_UPSTREAM: php-fpm2
         volumes_from:
             - application2
         volumes:
@@ -105,11 +109,12 @@ services:
             - "80"
         links:
             - php-fpm2
-        environment:
-            - UPSTREAM: php-fpm2
 
     nginx3:
-        build: ./nginx
+        build:
+            context: ./nginx
+            args:
+                PHP_UPSTREAM: php-fpm3
         volumes_from:
             - application3
         volumes:
@@ -118,8 +123,6 @@ services:
             - "80"
         links:
             - php-fpm3
-        environment:
-            - UPSTREAM: php-fpm3
 
 ### MySQL Container #########################################
 
@@ -192,7 +195,7 @@ services:
         ports:
             - "11211:11211"
         links:
-            - php-fpm
+            - php-fpm1
 
 ### Beanstalkd Container ####################################
 
@@ -202,7 +205,7 @@ services:
             - "11300:11300"
         privileged: true
         links:
-            - php-fpm
+            - php-fpm1
 
 ### Beanstalkd Console Container ############################
 
@@ -215,10 +218,10 @@ services:
 
 ### Workspace Utilities Container ###########################
 
-    workspace:
+    workspace1:
         build: ./workspace
         volumes_from:
-            - application
+            - application1
         tty: true
 
     workspace2:
