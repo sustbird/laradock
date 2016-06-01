@@ -66,22 +66,22 @@ services:
     application1:
         build: ./application
         volumes:
-            - ../:/var/www/laravel
+            - ../branch1:/var/www/laravel
 
     application2:
         build: ./application
         volumes:
-            - ../../branch2:/var/www/laravel
+            - ../branch2:/var/www/laravel
 
     application3:
         build: ./application
         volumes:
-            - ../../branch3:/var/www/laravel
+            - ../branch3:/var/www/laravel
 
     application4:
         build: ./application
         volumes:
-            - ../../branch4:/var/www/laravel
+            - ../branch4:/var/www/laravel
 
 ### Databases Data Container ################################
 
