@@ -15,6 +15,7 @@ services:
         - nginx1
         - nginx2
         - nginx3
+        - nginx4
 
 ### PHP-FPM Container #######################################
 
@@ -51,6 +52,15 @@ services:
         links:
             - workspace3
 
+    php-fpm4:
+        build:
+            context: ./php-fpm
+            dockerfile: Dockerfile-55
+        volumes_from:
+            - application4
+        expose:
+            - "9000"
+
 ### Laravel Application Code Container ######################
 
     application1:
@@ -67,6 +77,11 @@ services:
         build: ./application
         volumes:
             - ../../branch3:/var/www/laravel
+
+    application4:
+        build: ./application
+        volumes:
+            - ../../branch4:/var/www/laravel
 
 ### Databases Data Container ################################
 
@@ -123,6 +138,20 @@ services:
             - "80"
         links:
             - php-fpm3
+
+    nginx4:
+        build:
+            context: ./nginx
+            args:
+                PHP_UPSTREAM: php-fpm4
+        volumes_from:
+            - application4
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        expose:
+            - "80"
+        links:
+            - php-fpm4
 
 ### MySQL Container #########################################
 
